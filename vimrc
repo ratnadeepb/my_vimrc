@@ -3,12 +3,13 @@ syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 set number
-filetype off 
+filetype off
 
 " Plugins
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" call vundle#begin()
+call vundle#rc()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -33,9 +34,26 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 " git integration
 Plugin 'tpope/vim-fugitive'
+" color scheme
+" Plugin 'szorfein/fromthehell.vim'
+" Plugin 'KKPMW/sacredforest-vim'
+" Plugin 'morhetz/gruvbox'
+" Java autocomplete
+Plugin 'artur-shaik/vim-javacomplete2'
+Plugin 'vim-jp/vim-java'
+
+" Formatter
+" Plugin 'chiel92/vim-autoformat'
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
+Plugin 'google/vim-glaive'
+Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+call glaive#Install()
+Glaive codefmt google_java_executable="java -jar /Users/ratnadeepb/google-java-format-1.7-all-deps.jar"
 filetype plugin indent on    " required
 
 "" Whitespace
@@ -51,7 +69,10 @@ set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
 " background and color
-set background=dark
+set background=light
+" colorscheme murphy
+" colorscheme fromthehell
+" colorscheme sacredforest
 
 " templates
 if has("autocmd")
@@ -65,9 +86,12 @@ if has("autocmd")
 
         autocmd BufNewFile *.java 0r ~/.vim/templates/skeleton.java
         autocmd BufNewFile *.java pu=strftime('%c')
+        autocmd FileType java setlocal omnifunc=javacomplete#Complete
     augroup END
 endif
 
+" flagging unecessary whitespace
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " open NerdTree by default
 au VimEnter *  NERDTree
@@ -81,7 +105,6 @@ nnoremap <C-H> <C-W><C-H>
 
 " Enable folding with the spacebar
 nnoremap <space> za
-
 
 "see the docstrings for folded code
 let g:SimpylFold_docstring_preview=1
@@ -125,3 +148,25 @@ let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 
 let mapleader = ","
 nmap <leader>nt :NERDTreeToggle<cr>
+
+" Have syntastic use checkstyle (Java)
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_java_checkers = ['checkstyle']
+let g:syntastic_java_checkstyle_classpath = '~/Downloads/checkstyle-8.14-all.jar'
+let g:syntastic_java_checkstyle_conf_file = '~/Downloads/checkstyle.xml'
+
+" smart import
+nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+" enable usual imports
+nmap <F5> <Plug>(JavaComplete-Imports-Add)
+imap <F5> <Plug>(JavaComplete-Imports-Add)
+" Add all missing imports
+nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+
+" Remove unused imports
+nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
