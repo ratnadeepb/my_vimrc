@@ -58,6 +58,15 @@ call glaive#Install()
 Glaive codefmt google_java_executable="java -jar /Users/ratnadeepb/google-java-format-1.7-all-deps.jar"
 filetype plugin indent on    " required
 
+" Auto close all brackets, quotes etc
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
 "" Whitespace
 set nowrap                      " don't wrap lines
 set tabstop=8 shiftwidth=8      " a tab is 4 spaces
