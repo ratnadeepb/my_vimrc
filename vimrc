@@ -49,6 +49,8 @@ Plugin 'google/vim-codefmt'
 Plugin 'google/vim-glaive'
 Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
 
+" Rust
+Plugin 'rust-lang/rust.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
